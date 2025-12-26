@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Loader2, CheckCircle, XCircle } from 'lucide-react'
@@ -10,8 +10,12 @@ export function AuthCallback() {
   const [searchParams] = useSearchParams()
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [message, setMessage] = useState('')
+  const effectRan = useRef(false)
 
   useEffect(() => {
+    if (effectRan.current) return
+    effectRan.current = true
+
     const handleAuthCallback = async () => {
       console.log('🔐 AuthCallback: handleAuthCallback started')
       
